@@ -1,0 +1,127 @@
+{
+  "login": "Вход",
+  "register": "Регистрация",
+  "email": "Email",
+  "password": "Пароль",
+  "confirmPassword": "Подтвердите пароль",
+  "name": "Имя",
+  "rememberMe": "Запомнить меня",
+  "forgotPassword": "Забыли пароль?",
+  "dontHaveAccount": "Нет аккаунта?",
+  "alreadyHaveAccount": "Уже есть аккаунт?",
+  "signIn": "Войти",
+  "signUp": "Зарегистрироваться",
+  "logout": "Выйти",
+  "profile": "Профиль",
+  "settings": "Настройки",
+  "dashboard": "Дашборд",
+  "dashboardDescription": "Просмотр статистики и последних активностей",
+  "clients": "Клиенты",
+  "tasks": "Задачи",
+  "organizations": "Организации",
+  "services": "Услуги",
+  "analytics": "Аналитика",
+  "admin": "Администрирование",
+
+  "app_name": "Dariga CRM",
+  "copyright": "© 2023 Dariga CRM. Все права защищены.",
+  
+  "profile_admin": "Администратор",
+  "profile_user": "Пользователь",
+  
+  "nav_dashboard": "Дашборд",
+  "nav_clients": "Клиенты",
+  "nav_tasks": "Задачи",
+  "nav_organizations": "Организации",
+  "nav_services": "Услуги",
+  "nav_analytics": "Аналитика",
+  "nav_admin": "Администрирование",
+  "nav_settings": "Настройки",
+  
+  "btn_login": "Войти",
+  "btn_logout": "Выйти",
+  "btn_support": "Поддержка",
+  "btn_close": "Закрыть",
+  
+  "menu_profile": "Профиль",
+  
+  "support_title": "Нужна помощь?",
+  "support_subtitle": "Связаться со службой поддержки",
+  "support_email": "Email",
+  "support_telegram": "Telegram",
+  "support_copy": "Копировать",
+  "support_copied": "Скопировано!",
+
+  "welcomeBack": "С возвращением!",
+  "enterCredentials": "Введите ваши данные для входа в систему",
+  "createAccount": "Создайте аккаунт",
+  "fillDetails": "Заполните данные для регистрации",
+  
+  "welcomeToYourDashboard": "Добро пожаловать в ваш дашборд!",
+  "summaryTitle": "Общая статистика",
+  "activeClients": "Активные клиенты",
+  "totalTasks": "Всего задач",
+  "completedTasks": "Завершено задач",
+  "totalIncome": "Общий доход",
+  "statistics": "Статистика",
+  "recentActivity": "Последняя активность",
+  "upcomingTasks": "Предстоящие задачи",
+  "seeAll": "Посмотреть все",
+  
+  "today": "Сегодня",
+  "thisWeek": "Текущая неделя",
+  "thisMonth": "Текущий месяц",
+  "lastMonth": "Предыдущий месяц",
+  "quarter": "Квартал",
+  "year": "Год",
+  
+  "high": "Высокий",
+  "medium": "Средний",
+  "low": "Низкий",
+  
+  "search": "Поиск",
+
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "confirm": "Подтвердить",
+    "back": "Назад",
+    "next": "Далее",
+    "loading": "Загрузка...",
+    "error": "Ошибка"
+  },
+
+  "todo": "К выполнению",
+  "inProgress": "В процессе",
+  "done": "Выполнено",
+  "taskManagement": "Управление задачами",
+  "addTask": "Добавить задачу",
+  "searchTasks": "Поиск задач",
+  "confirmDeleteTask": "Вы уверены, что хотите удалить эту задачу?",
+  "failedToFetchTasks": "Не удалось загрузить задачи",
+
+  "tasks": {
+    "title": "Название",
+    "description": "Описание",
+    "status": "Статус",
+    "priority": "Приоритет",
+    "dueDate": "Срок выполнения",
+    "assignedTo": "Ответственный",
+    "addTask": "Добавить задачу",
+    "editTask": "Редактировать задачу",
+    "deleteTask": "Удалить задачу",
+    "noTasks": "Нет задач",
+    "statuses": {
+      "pending": "К выполнению",
+      "inProgress": "В процессе",
+      "completed": "Выполнено"
+    },
+    "priorities": {
+      "high": "Высокий",
+      "medium": "Средний",
+      "low": "Низкий"
+    }
+  }
+} 

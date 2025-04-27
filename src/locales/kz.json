@@ -1,0 +1,127 @@
+{
+  "login": "Кіру",
+  "register": "Тіркелу",
+  "email": "Email",
+  "password": "Құпия сөз",
+  "confirmPassword": "Құпия сөзді растаңыз",
+  "name": "Аты",
+  "rememberMe": "Мені есте сақтау",
+  "forgotPassword": "Құпия сөзді ұмыттыңыз ба?",
+  "dontHaveAccount": "Тіркелгіңіз жоқ па?",
+  "alreadyHaveAccount": "Тіркелгіңіз бар ма?",
+  "signIn": "Кіру",
+  "signUp": "Тіркелу",
+  "logout": "Шығу",
+  "profile": "Профиль",
+  "settings": "Параметрлер",
+  "dashboard": "Басқару тақтасы",
+  "dashboardDescription": "Статистиканы және соңғы әрекеттерді көру",
+  "clients": "Клиенттер",
+  "tasks": "Тапсырмалар",
+  "organizations": "Ұйымдар",
+  "services": "Қызметтер",
+  "analytics": "Аналитика",
+  "admin": "Әкімшілік",
+
+  "app_name": "Dariga CRM",
+  "copyright": "© 2023 Dariga CRM. Барлық құқықтар қорғалған.",
+  
+  "profile_admin": "Әкімші",
+  "profile_user": "Пайдаланушы",
+  
+  "nav_dashboard": "Басқару тақтасы",
+  "nav_clients": "Клиенттер",
+  "nav_tasks": "Тапсырмалар",
+  "nav_organizations": "Ұйымдар",
+  "nav_services": "Қызметтер",
+  "nav_analytics": "Аналитика",
+  "nav_admin": "Әкімшілік",
+  "nav_settings": "Параметрлер",
+  
+  "btn_login": "Кіру",
+  "btn_logout": "Шығу",
+  "btn_support": "Қолдау",
+  "btn_close": "Жабу",
+  
+  "menu_profile": "Профиль",
+  
+  "support_title": "Көмек керек пе?",
+  "support_subtitle": "Қолдау қызметіне хабарласыңыз",
+  "support_email": "Email",
+  "support_telegram": "Telegram",
+  "support_copy": "Көшіру",
+  "support_copied": "Көшірілді!",
+
+  "welcomeBack": "Қайта оралуыңызбен!",
+  "enterCredentials": "Тіркелгіңізге кіру үшін деректерді енгізіңіз",
+  "createAccount": "Тіркелгі жасаңыз",
+  "fillDetails": "Тіркелу үшін деректерді толтырыңыз",
+  
+  "welcomeToYourDashboard": "Басқару тақтасына қош келдіңіз!",
+  "summaryTitle": "Жалпы статистика",
+  "activeClients": "Белсенді клиенттер",
+  "totalTasks": "Барлық тапсырмалар",
+  "completedTasks": "Аяқталған тапсырмалар",
+  "totalIncome": "Жалпы кіріс",
+  "statistics": "Статистика",
+  "recentActivity": "Соңғы әрекеттер",
+  "upcomingTasks": "Алдағы тапсырмалар",
+  "seeAll": "Барлығын көру",
+  
+  "today": "Бүгін",
+  "thisWeek": "Осы апта",
+  "thisMonth": "Осы ай",
+  "lastMonth": "Өткен ай",
+  "quarter": "Тоқсан",
+  "year": "Жыл",
+  
+  "high": "Жоғары",
+  "medium": "Орташа",
+  "low": "Төмен",
+  
+  "search": "Іздеу",
+
+  "common": {
+    "save": "Сақтау",
+    "cancel": "Болдырмау",
+    "delete": "Жою",
+    "edit": "Өңдеу",
+    "confirm": "Растау",
+    "back": "Артқа",
+    "next": "Келесі",
+    "loading": "Жүктелуде...",
+    "error": "Қате"
+  },
+
+  "todo": "Орындауға",
+  "inProgress": "Процесте",
+  "done": "Аяқталды",
+  "taskManagement": "Тапсырмаларды басқару",
+  "addTask": "Тапсырма қосу",
+  "searchTasks": "Тапсырмаларды іздеу",
+  "confirmDeleteTask": "Бұл тапсырманы жойғыңыз келетініне сенімдісіз бе?",
+  "failedToFetchTasks": "Тапсырмаларды жүктеу мүмкін болмады",
+
+  "tasks": {
+    "title": "Атауы",
+    "description": "Сипаттама",
+    "status": "Күйі",
+    "priority": "Басымдылық",
+    "dueDate": "Аяқталу мерзімі",
+    "assignedTo": "Жауапты",
+    "addTask": "Тапсырма қосу",
+    "editTask": "Тапсырманы өңдеу",
+    "deleteTask": "Тапсырманы жою",
+    "noTasks": "Тапсырмалар жоқ",
+    "statuses": {
+      "pending": "Орындауға",
+      "inProgress": "Процесте",
+      "completed": "Аяқталды"
+    },
+    "priorities": {
+      "high": "Жоғары",
+      "medium": "Орташа",
+      "low": "Төмен"
+    }
+  }
+} 

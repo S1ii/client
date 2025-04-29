@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -78,82 +78,82 @@ const TasksPage: React.FC = () => {
   };
 
   // Загрузка задач
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setLoading(true);
-        const tasksData = await tasksApi.getTasks();
-        setTasks(tasksData);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching tasks:', err);
-        setError(t('failedToFetchTasks'));
-        
-        // Использование демо-данных если API недоступен
-        setTasks([
-          {
-            id: '1',
-            title: 'Создать презентацию',
-            description: 'Подготовить презентацию для клиента по проекту',
-            priority: 'high',
-            status: 'todo',
-            dueDate: '2023-12-15',
-            assignedTo: 'Алексей Смирнов',
-            createdAt: '2023-12-01T10:00:00Z',
-            updatedAt: '2023-12-01T10:00:00Z'
-          },
-          {
-            id: '2',
-            title: 'Изучить документацию',
-            description: 'Изучить новую версию API',
-            priority: 'medium',
-            status: 'in_progress',
-            dueDate: '2023-12-10',
-            assignedTo: 'Мария Иванова',
-            createdAt: '2023-12-02T11:30:00Z',
-            updatedAt: '2023-12-02T11:30:00Z'
-          },
-          {
-            id: '3',
-            title: 'Исправить баги',
-            description: 'Исправить ошибки в модуле оплаты',
-            priority: 'high',
-            status: 'done',
-            dueDate: '2023-12-05',
-            assignedTo: 'Дмитрий Петров',
-            createdAt: '2023-12-01T09:15:00Z',
-            updatedAt: '2023-12-03T14:20:00Z'
-          },
-          {
-            id: '4',
-            title: 'Обновить зависимости',
-            description: 'Обновить NPM пакеты до последних версий',
-            priority: 'low',
-            status: 'done',
-            dueDate: '2023-11-28',
-            assignedTo: 'Сергей Николаев',
-            createdAt: '2023-12-04T15:10:00Z',
-            updatedAt: '2023-12-04T15:10:00Z'
-          },
-          {
-            id: '5',
-            title: 'Встреча с клиентом',
-            description: 'Обсудить требования к проекту',
-            priority: 'medium',
-            status: 'todo',
-            dueDate: '2023-12-08',
-            assignedTo: 'Елена Козлова',
-            createdAt: '2023-12-03T13:00:00Z',
-            updatedAt: '2023-12-03T13:00:00Z'
-          }
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTasks();
+  const fetchTasks = useCallback(async () => {
+    try {
+      setLoading(true);
+      const tasksData = await tasksApi.getTasks();
+      setTasks(tasksData);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching tasks:', err);
+      setError(t('failedToFetchTasks'));
+      
+      // Использование демо-данных если API недоступен
+      setTasks([
+        {
+          id: '1',
+          title: 'Создать презентацию',
+          description: 'Подготовить презентацию для клиента по проекту',
+          priority: 'high',
+          status: 'todo',
+          dueDate: '2023-12-15',
+          assignedTo: 'Алексей Смирнов',
+          createdAt: '2023-12-01T10:00:00Z',
+          updatedAt: '2023-12-01T10:00:00Z'
+        },
+        {
+          id: '2',
+          title: 'Изучить документацию',
+          description: 'Изучить новую версию API',
+          priority: 'medium',
+          status: 'in_progress',
+          dueDate: '2023-12-10',
+          assignedTo: 'Мария Иванова',
+          createdAt: '2023-12-02T11:30:00Z',
+          updatedAt: '2023-12-02T11:30:00Z'
+        },
+        {
+          id: '3',
+          title: 'Исправить баги',
+          description: 'Исправить ошибки в модуле оплаты',
+          priority: 'high',
+          status: 'done',
+          dueDate: '2023-12-05',
+          assignedTo: 'Дмитрий Петров',
+          createdAt: '2023-12-01T09:15:00Z',
+          updatedAt: '2023-12-03T14:20:00Z'
+        },
+        {
+          id: '4',
+          title: 'Обновить зависимости',
+          description: 'Обновить NPM пакеты до последних версий',
+          priority: 'low',
+          status: 'done',
+          dueDate: '2023-11-28',
+          assignedTo: 'Сергей Николаев',
+          createdAt: '2023-12-04T15:10:00Z',
+          updatedAt: '2023-12-04T15:10:00Z'
+        },
+        {
+          id: '5',
+          title: 'Встреча с клиентом',
+          description: 'Обсудить требования к проекту',
+          priority: 'medium',
+          status: 'todo',
+          dueDate: '2023-12-08',
+          assignedTo: 'Елена Козлова',
+          createdAt: '2023-12-03T13:00:00Z',
+          updatedAt: '2023-12-03T13:00:00Z'
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
   }, [t]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   // Фильтрация задач
   const getFilteredTasks = () => {
@@ -295,34 +295,27 @@ const TasksPage: React.FC = () => {
 
   // Обработка сохранения задачи
   const handleSaveTask = async (taskData: any) => {
-    setLoading(true);
-    
     try {
+      setLoading(true);
+      
       if (modalMode === 'create') {
         // Создание новой задачи
         const newTask = await tasksApi.createTask(taskData);
-        const updatedTasks = Array.isArray(tasks) ? [...tasks, newTask] : [newTask];
-        setTasks(updatedTasks);
         
-        // Убедимся, что фильтрованные задачи тоже обновляются
-        if (
-          (filterStatus === 'all' || filterStatus === newTask.status) &&
-          (filterPriority === 'all' || filterPriority === newTask.priority) &&
-          (!searchTerm || 
-           newTask.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           newTask.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           newTask.assignedTo?.toLowerCase().includes(searchTerm.toLowerCase()))
-        ) {
-          // Если задача соответствует текущим фильтрам, обновим фильтрованный список
-          console.log("Новая задача добавлена и отображена:", newTask);
-        }
+        // Обновляем состояние задач безопасно через callback
+        setTasks(prevTasks => {
+          const currentTasks = Array.isArray(prevTasks) ? [...prevTasks] : [];
+          return [...currentTasks, newTask];
+        });
       } else if (modalMode === 'edit' && currentTask) {
         // Обновление существующей задачи
         const updatedTask = await tasksApi.updateTask(currentTask.id, taskData);
-        const updatedTasks = Array.isArray(tasks) 
-          ? tasks.map(task => task.id === updatedTask.id ? updatedTask : task) 
-          : [updatedTask];
-        setTasks(updatedTasks);
+        
+        // Обновляем состояние задач безопасно через callback
+        setTasks(prevTasks => {
+          const currentTasks = Array.isArray(prevTasks) ? [...prevTasks] : [];
+          return currentTasks.map(task => task.id === updatedTask.id ? updatedTask : task);
+        });
       }
       
       setShowModal(false);
@@ -340,15 +333,40 @@ const TasksPage: React.FC = () => {
   const handleDeleteTask = async (id: string) => {
     if (!window.confirm(t('confirmDeleteTask'))) return;
     
-    setLoading(true);
-    
     try {
+      setLoading(true);
+      console.log(`Deleting task with ID: ${id}`);
+      
+      // Сохраняем текущее состояние задач перед удалением для отладки
+      console.log('Current tasks before deletion:', JSON.stringify(tasks));
+      
+      // Вызов API для удаления задачи
       await tasksApi.deleteTask(id);
-      setTasks(Array.isArray(tasks) ? tasks.filter(task => task.id !== id) : []);
+      
+      // Обновление локального состояния через функцию обновления состояния
+      setTasks(prevTasks => {
+        // Безопасная проверка prevTasks
+        if (!Array.isArray(prevTasks)) {
+          console.warn('prevTasks is not an array:', prevTasks);
+          return [];
+        }
+        
+        // Создаем новый массив без удаленной задачи
+        const updatedTasks = prevTasks.filter(task => task.id !== id);
+        console.log(`Filtered tasks after deletion (${updatedTasks.length}):`, JSON.stringify(updatedTasks));
+        return updatedTasks;
+      });
+      
+      // Перезагрузка задач с сервера для синхронизации
+      await fetchTasks();
+      
       setError(null);
     } catch (err) {
       console.error('Error deleting task:', err);
       setError(t('failedToDeleteTask'));
+      
+      // Перезагрузка задач в случае ошибки для восстановления состояния
+      await fetchTasks();
     } finally {
       setLoading(false);
     }
@@ -457,7 +475,7 @@ const TasksPage: React.FC = () => {
         <div className="flex items-center">
           <span className="material-icons text-[var(--primary-color)] mr-3 text-3xl">assignment</span>
           <h1 className="text-2xl font-bold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-            {t('taskManagement')}
+            {t('tasks')}
           </h1>
         </div>
         
@@ -467,7 +485,7 @@ const TasksPage: React.FC = () => {
             className="inline-flex items-center px-5 py-2.5 bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] shadow-sm transition-all duration-200 transform hover:-translate-y-1"
           >
             <span className="material-icons mr-2 text-sm">add</span>
-            {t('tasks.addTask')}
+            Добавить задачу
           </button>
         </div>
       </div>
@@ -480,7 +498,7 @@ const TasksPage: React.FC = () => {
               <span className="material-icons text-blue-600 dark:text-blue-400">pending</span>
             </div>
             <div>
-              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">{t('tasks.statuses.pending')}</p>
+              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">К выполнению</p>
               <p className="text-2xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{todoTasks.length}</p>
             </div>
           </div>
@@ -492,7 +510,7 @@ const TasksPage: React.FC = () => {
               <span className="material-icons text-amber-600 dark:text-amber-400">hourglass_empty</span>
             </div>
             <div>
-              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">{t('tasks.statuses.inProgress')}</p>
+              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">В процессе</p>
               <p className="text-2xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{inProgressTasks.length}</p>
             </div>
           </div>
@@ -504,7 +522,7 @@ const TasksPage: React.FC = () => {
               <span className="material-icons text-green-600 dark:text-green-400">check_circle</span>
             </div>
             <div>
-              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">{t('tasks.statuses.completed')}</p>
+              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">Выполнено</p>
               <p className="text-2xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{doneTasks.length}</p>
             </div>
           </div>
@@ -522,7 +540,7 @@ const TasksPage: React.FC = () => {
               <input
                 type="text"
                 className="pl-10 pr-4 py-2 w-full rounded-lg border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)] bg-white dark:bg-[var(--dark-bg-primary)] text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition"
-                placeholder={t('tasks.search')}
+                placeholder="Поиск задач..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -534,10 +552,10 @@ const TasksPage: React.FC = () => {
                 onChange={(e) => setFilterStatus(e.target.value)}
                 className="px-3 py-2 rounded-lg border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)] bg-white dark:bg-[var(--dark-bg-primary)] text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition"
               >
-                <option value="all">{t('tasks.statuses.all')}</option>
-                <option value="todo">{t('tasks.statuses.pending')}</option>
-                <option value="in_progress">{t('tasks.statuses.inProgress')}</option>
-                <option value="done">{t('tasks.statuses.completed')}</option>
+                <option value="all">Все статусы</option>
+                <option value="todo">К выполнению</option>
+                <option value="in_progress">В процессе</option>
+                <option value="done">Выполнено</option>
               </select>
               
               <select
@@ -545,10 +563,10 @@ const TasksPage: React.FC = () => {
                 onChange={(e) => setFilterPriority(e.target.value)}
                 className="px-3 py-2 rounded-lg border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)] bg-white dark:bg-[var(--dark-bg-primary)] text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition"
               >
-                <option value="all">{t('tasks.priorities.all')}</option>
-                <option value="high">{t('tasks.priorities.high')}</option>
-                <option value="medium">{t('tasks.priorities.medium')}</option>
-                <option value="low">{t('tasks.priorities.low')}</option>
+                <option value="all">Все приоритеты</option>
+                <option value="high">Высокий</option>
+                <option value="medium">Средний</option>
+                <option value="low">Низкий</option>
               </select>
               
               <select
@@ -556,10 +574,10 @@ const TasksPage: React.FC = () => {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="px-3 py-2 rounded-lg border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)] bg-white dark:bg-[var(--dark-bg-primary)] text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition"
               >
-                <option value="newest">{t('tasks.sorting.newest')}</option>
-                <option value="oldest">{t('tasks.sorting.oldest')}</option>
-                <option value="dueDate">{t('tasks.sorting.dueDate')}</option>
-                <option value="priority">{t('tasks.sorting.priority')}</option>
+                <option value="newest">Сначала новые</option>
+                <option value="oldest">Сначала старые</option>
+                <option value="dueDate">По сроку</option>
+                <option value="priority">По приоритету</option>
               </select>
             </div>
           </div>
@@ -574,22 +592,22 @@ const TasksPage: React.FC = () => {
               <thead className="bg-gray-50 dark:bg-gray-800/40">
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] uppercase tracking-wider">
-                    {t('tasks.title')}
+                    Название
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] uppercase tracking-wider">
-                    {t('tasks.status')}
+                    Статус
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] uppercase tracking-wider">
-                    {t('tasks.priority')}
+                    Приоритет
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] uppercase tracking-wider">
-                    {t('tasks.assignedTo')}
+                    Назначено
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] uppercase tracking-wider">
-                    {t('tasks.dueDate')}
+                    Срок
                   </th>
                   <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] uppercase tracking-wider">
-                    {t('common.actions')}
+                    Действия
                   </th>
                 </tr>
               </thead>
@@ -617,20 +635,26 @@ const TasksPage: React.FC = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{task.assignedTo || t('tasks.notAssigned')}</div>
+                        <div className="text-sm text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{task.assignedTo || 'Не назначено'}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{formatDate(task.dueDate)}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button 
-                          onClick={() => handleOpenEditModal(task)} 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenEditModal(task);
+                          }} 
                           className="text-[var(--primary-color)] hover:text-[var(--primary-dark)] mr-3 transition-colors"
                         >
                           <span className="material-icons" style={{ fontSize: '18px' }}>edit</span>
                         </button>
                         <button 
-                          onClick={() => handleDeleteTask(task.id)} 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteTask(task.id);
+                          }} 
                           className="text-red-500 hover:text-red-700 transition-colors"
                         >
                           <span className="material-icons" style={{ fontSize: '18px' }}>delete</span>
@@ -645,13 +669,13 @@ const TasksPage: React.FC = () => {
         ) : (
           <div className="text-center py-8">
             <span className="material-icons text-4xl text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] mb-2">assignment</span>
-            <p className="text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] mb-4">{t('tasks.noTasks')}</p>
+            <p className="text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] mb-4">Задачи не найдены</p>
             <button
               onClick={handleOpenCreateModal}
               className="inline-flex items-center px-4 py-2 bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white rounded-lg shadow-sm transition-all duration-200"
             >
               <span className="material-icons mr-1 text-sm">add</span>
-              {t('tasks.addTask')}
+              Добавить задачу
             </button>
           </div>
         )}

@@ -23,8 +23,8 @@
   "analytics": "Analytics",
   "admin": "Admin",
 
-  "app_name": "Dariga CRM",
-  "copyright": "© 2023 Dariga CRM. All rights reserved.",
+  "app_name": "Just CRM",
+  "copyright": "© 2025 Just CRM. All rights reserved.",
   
   "profile_admin": "Administrator",
   "profile_user": "User",
@@ -60,6 +60,7 @@
   "welcomeToYourDashboard": "Welcome to your Dashboard!",
   "summaryTitle": "Overall Summary",
   "activeClients": "Active Clients",
+  "totalClients": "Total Clients",
   "totalTasks": "Total Tasks",
   "completedTasks": "Completed Tasks",
   "totalIncome": "Total Income",
@@ -80,6 +81,17 @@
   "low": "Low",
   
   "search": "Search",
+  "industry": "Industry",
+  "employees": "Employees",
+  "address": "Address",
+  "phone": "Phone",
+  "email": "Email",
+  "status": "Status",
+  "cancel": "Cancel",
+  "save": "Save",
+  "contact_person": "Contact Person",
+  "organization_name": "Organization Name",
+  "organization_type": "Organization Type",
 
   "common": {
     "save": "Save",
@@ -90,7 +102,15 @@
     "back": "Back",
     "next": "Next",
     "loading": "Loading...",
-    "error": "Error"
+    "error": "Error",
+    "search": "Search",
+    "add": "Add",
+    "saveChanges": "Save Changes",
+    "create": "Create",
+    "view": "View",
+    "loading_message": "Please wait",
+    "noData": "No data found",
+    "actions": "Actions"
   },
 
   "todo": "To Do",
@@ -101,6 +121,9 @@
   "searchTasks": "Search Tasks",
   "confirmDeleteTask": "Are you sure you want to delete this task?",
   "failedToFetchTasks": "Failed to fetch tasks",
+  "failedToCreateTask": "Failed to create task",
+  "failedToUpdateTask": "Failed to update task",
+  "failedToDeleteTask": "Failed to delete task",
   
   "tasks": {
     "title": "Title",
@@ -114,14 +137,135 @@
     "deleteTask": "Delete Task",
     "noTasks": "No Tasks",
     "statuses": {
+      "all": "All Statuses",
       "pending": "To Do",
       "inProgress": "In Progress",
       "completed": "Completed"
     },
     "priorities": {
+      "all": "All Priorities",
       "high": "High",
       "medium": "Medium",
       "low": "Low"
+    },
+    "sorting": {
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "dueDate": "By Due Date",
+      "priority": "By Priority"
+    },
+    "titlePlaceholder": "Enter task title",
+    "descriptionPlaceholder": "Enter task description",
+    "assignedToPlaceholder": "Who is assigned to this task",
+    "notAssigned": "Not Assigned",
+    "search": "Search tasks..."
+  },
+  
+  "clients": {
+    "addClient": "Add Client",
+    "editClient": "Edit Client",
+    "deleteClient": "Delete Client",
+    "noClients": "No Clients",
+    "noClientsDescription": "There are no clients in your database yet. Start by adding your first client.",
+    "loadingClients": "Loading clients...",
+    "name": "Name",
+    "status": "Status",
+    "contacts": "Contacts",
+    "actions": "Actions",
+    "address": "Address",
+    "phone": "Phone",
+    "notes": "Notes",
+    "confirmDelete": "Are you sure you want to delete this client?",
+    "deleteError": "Error deleting client",
+    "statuses": {
+      "all": "All Statuses",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "connectionError": "Connection error",
+    "search": "Search clients...",
+    "titlePlaceholder": "Enter client name",
+    "emailPlaceholder": "email@example.com",
+    "phonePlaceholder": "+1 (234) 567-8900",
+    "addressPlaceholder": "Enter address",
+    "notesPlaceholder": "Additional information about the client",
+    "validation": {
+      "nameRequired": "Client name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Invalid phone format"
     }
-  }
+  },
+  
+  "organizations": {
+    "addOrganization": "Add Organization",
+    "editOrganization": "Edit Organization",
+    "createOrganization": "Create Organization",
+    "deleteOrganization": "Delete Organization",
+    "noOrganizations": "No Organizations",
+    "noOrganizationsDescription": "There are no organizations in your database yet. Start by adding your first organization.",
+    "loadingOrganizations": "Loading organizations...",
+    "name": "Name",
+    "type": "Type",
+    "status": "Status",
+    "industry": "Industry",
+    "employees": "Employees",
+    "contacts": "Contacts",
+    "actions": "Actions",
+    "address": "Address",
+    "phone": "Phone",
+    "contactPerson": "Contact Person",
+    "confirmDelete": "Are you sure you want to delete this organization?",
+    "deleteError": "Error deleting organization",
+    "connectionError": "Connection error",
+    "totalOrganizations": "Total Organizations",
+    "activeOrganizations": "Active",
+    "search": "Search organizations...",
+    "contactInfo": "Contact Information",
+    "additionalInfo": "Additional Information",
+    "close": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "itemsShowing": "Showing {count} of {total} organizations",
+    "statuses": {
+      "all": "All Statuses",
+      "active": "Active",
+      "archived": "Archived",
+      "unknown": "Unknown"
+    },
+    "industries": {
+      "all": "All Industries"
+    },
+    "placeholders": {
+      "name": "Enter organization name",
+      "industry": "Specify industry",
+      "employees": "Number of employees",
+      "address": "Enter address",
+      "contactPerson": "Enter contact person",
+      "phone": "+1 (234) 567-8900",
+      "email": "email@example.com"
+    },
+    "validation": {
+      "nameRequired": "Organization name is required",
+      "contactPersonRequired": "Contact person is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Invalid phone format",
+      "statusInvalid": "Status must be \"active\" or \"archived\""
+    }
+  },
+
+  "currentTheme": "Current Theme",
+  "darkTheme": "Dark Theme",
+  "lightTheme": "Light Theme",
+  "currentLanguage": "Current Language",
+  "appearance": "Appearance",
+  "compactMode": "Compact Mode",
+  "fontSize": "Font Size",
+  "animations": "Animations",
+  "useAnimations": "Use animations in interface",
+  "interfaceLanguage": "Interface Language",
+  "resetAllSettings": "Reset All Settings"
 } 

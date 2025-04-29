@@ -1,0 +1,162 @@
+/* Стили для карточки задач в темной теме */
+.task-container {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Стили для светлой темы */
+.task-container.light {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(226, 232, 240, 1);
+}
+
+/* Стили для темной темы */
+.task-container.dark {
+  background-color: rgba(30, 41, 59, 0.6);
+  border-color: rgba(51, 65, 85, 0.7);
+}
+
+/* Стили для заголовков в темной теме */
+.task-title.dark {
+  color: rgba(241, 245, 249, 1);
+}
+
+/* Стили для чипов в светлой теме */
+.chip-pending.light {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: rgba(30, 64, 175, 1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.chip-inprogress.light {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: rgba(180, 83, 9, 1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.chip-completed.light {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: rgba(4, 120, 87, 1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* Стили для чипов в темной теме */
+.chip-pending.dark {
+  background-color: rgba(30, 58, 138, 0.3);
+  color: rgba(147, 197, 253, 1);
+  border-color: rgba(30, 58, 138, 0.5);
+}
+
+.chip-inprogress.dark {
+  background-color: rgba(146, 64, 14, 0.3);
+  color: rgba(253, 230, 138, 1);
+  border-color: rgba(146, 64, 14, 0.5);
+}
+
+.chip-completed.dark {
+  background-color: rgba(6, 78, 59, 0.3);
+  color: rgba(110, 231, 183, 1);
+  border-color: rgba(6, 78, 59, 0.5);
+}
+
+/* Анимация при наведении для чипов */
+.chip-pending:hover, .chip-inprogress:hover, .chip-completed:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+/* Стили для разделителя в темной теме */
+.task-divider.dark {
+  border-color: rgba(51, 65, 85, 1);
+}
+
+/* Исправленные стили для индикаторов */
+.task-indicator.dark {
+  color: rgba(165, 180, 252, 1);
+}
+
+/* Стили для селекторов в темной теме */
+.MuiFormControl-root.dark .MuiInputBase-root,
+.MuiFormControl-root.dark .MuiOutlinedInput-root {
+  background-color: rgba(30, 41, 59, 0.6);
+  color: rgba(241, 245, 249, 1);
+  border-color: rgba(51, 65, 85, 0.7);
+}
+
+.MuiFormControl-root.dark .MuiInputLabel-root {
+  color: rgba(203, 213, 225, 1);
+}
+
+.MuiFormControl-root.dark .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(71, 85, 105, 0.8);
+}
+
+.MuiFormControl-root.dark:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(100, 116, 139, 0.9);
+}
+
+.MuiFormControl-root.dark .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(59, 130, 246, 0.9) !important;
+}
+
+.MuiFormControl-root.dark .MuiSvgIcon-root {
+  color: rgba(203, 213, 225, 1);
+}
+
+.MuiFormControl-root.dark .MuiSelect-select {
+  color: rgba(241, 245, 249, 1);
+}
+
+.MuiMenu-paper.dark {
+  background-color: rgba(30, 41, 59, 0.95);
+  color: rgba(241, 245, 249, 1);
+  border: 1px solid rgba(51, 65, 85, 0.7);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+}
+
+.MuiMenuItem-root.dark {
+  color: rgba(241, 245, 249, 1);
+}
+
+.MuiMenuItem-root.dark:hover {
+  background-color: rgba(51, 65, 85, 0.7);
+}
+
+/* Стили для текстового поля поиска в темной теме */
+.MuiTextField-root.dark .MuiOutlinedInput-root {
+  background-color: rgba(30, 41, 59, 0.6);
+  color: rgba(241, 245, 249, 1);
+}
+
+.MuiTextField-root.dark .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(71, 85, 105, 0.8);
+}
+
+.MuiTextField-root.dark:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(100, 116, 139, 0.9);
+}
+
+.MuiTextField-root.dark .MuiInputAdornment-root .MuiSvgIcon-root {
+  color: rgba(148, 163, 184, 1);
+}
+
+.MuiTextField-root.dark input::placeholder {
+  color: rgba(148, 163, 184, 0.8);
+  opacity: 1;
+}
+
+/* Анимации для добавления новых задач */
+@keyframes taskFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.new-task {
+  animation: taskFadeIn 0.5s ease-out forwards;
+} 

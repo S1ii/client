@@ -1,0 +1,248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Универсальные переменные для светлой и темной тем */
+:root {
+  --light-bg-primary: #FFFFFF;
+  --light-bg-secondary: #F1F5F9;
+  --light-bg-tertiary: #F8FAFC;
+  --light-text-primary: #0F172A;
+  --light-text-secondary: #334155;
+  --light-text-muted: #64748B;
+  --light-border-color: rgba(0, 0, 0, 0.05);
+  --light-hover-color: rgba(0, 0, 0, 0.03);
+  --light-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --light-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --light-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  --dark-bg-primary: #1E293B;
+  --dark-bg-secondary: #0F172A;
+  --dark-bg-tertiary: #334155;
+  --dark-text-primary: #F8FAFC;
+  --dark-text-secondary: #E2E8F0;
+  --dark-text-muted: #94A3B8;
+  --dark-border-color: rgba(255, 255, 255, 0.05);
+  --dark-hover-color: rgba(255, 255, 255, 0.05);
+  --dark-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --dark-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --dark-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  
+  --primary-color: #4F46E5;
+  --primary-light: #818CF8;
+  --primary-dark: #3730A3;
+  --secondary-color: #0EA5E9;
+  --secondary-light: #38BDF8;
+  --secondary-dark: #0369A1;
+  --success-color: #10B981;
+  --success-light: #34D399;
+  --error-color: #EF4444;
+  --error-light: #F87171;
+  --warning-color: #F59E0B;
+  --warning-light: #FBBF24;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Глобальные стили при перетаскивании */
+body.dragging-active {
+  cursor: grabbing !important;
+  overflow: hidden;
+}
+
+body.dragging-active * {
+  cursor: grabbing !important;
+}
+
+/* Стили для компактного режима */
+body.compact-mode .card,
+body.compact-mode .bg-white,
+body.compact-mode .bg-[var(--dark-bg-secondary)],
+body.compact-mode .bg-[var(--light-bg-secondary)],
+body.compact-mode .bg-gray-50,
+body.compact-mode .bg-slate-800\/50 {
+  padding: 0.75rem !important;
+}
+
+body.compact-mode .space-y-6 {
+  gap: 1rem !important;
+}
+
+body.compact-mode h1, 
+body.compact-mode h2 {
+  font-size: 90% !important;
+}
+
+body.compact-mode .grid {
+  gap: 0.5rem !important;
+}
+
+body.compact-mode .rounded-xl {
+  border-radius: 0.5rem !important;
+}
+
+body.compact-mode .mb-6 {
+  margin-bottom: 1rem !important;
+}
+
+body.compact-mode .p-4 {
+  padding: 0.75rem !important;
+}
+
+body.compact-mode .p-6 {
+  padding: 1rem !important;
+}
+
+body.compact-mode table td,
+body.compact-mode table th {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+/* Стили для отключенных анимаций */
+body.no-animations *,
+body.no-animations *:before,
+body.no-animations *:after {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+body.no-animations .fade-in {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+body.no-animations .stats-card:hover,
+body.no-animations .task-card:hover {
+  transform: none !important;
+}
+
+body.no-animations .MuiButton-containedPrimary[class*="bg-blue-600"]:hover {
+  transform: none !important;
+}
+
+/* Базовые стили карточек задач */
+.task-card {
+  transition: all 0.2s ease;
+  touch-action: none;
+  position: relative;
+  will-change: transform, opacity;
+  user-select: none;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.light .task-card {
+  background-color: var(--light-bg-primary);
+  border: 1px solid var(--light-border-color);
+  color: var(--light-text-primary);
+  box-shadow: var(--light-shadow-sm);
+}
+
+.dark .task-card {
+  background-color: rgba(30, 41, 59, 0.7);
+  border: 1px solid var(--dark-border-color);
+  color: var(--dark-text-primary);
+  box-shadow: var(--dark-shadow-sm);
+}
+
+.light .task-card:hover {
+  background-color: var(--light-bg-primary);
+  box-shadow: var(--light-shadow-md);
+}
+
+.dark .task-card:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+  box-shadow: var(--dark-shadow-md);
+}
+
+/* Анимация появления для новых элементов */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Анимации масштабирования для карточек статистики */
+.stats-card {
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+}
+
+.light .stats-card {
+  background-color: var(--light-bg-primary);
+  border: 1px solid var(--light-border-color);
+  box-shadow: var(--light-shadow-sm);
+}
+
+.dark .stats-card {
+  background-color: rgba(30, 41, 59, 0.7);
+  border: 1px solid var(--dark-border-color);
+  box-shadow: var(--dark-shadow-sm);
+}
+
+.light .stats-card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--light-shadow-lg);
+}
+
+.dark .stats-card:hover {
+  transform: scale(1.02);
+  background-color: rgba(30, 41, 59, 0.9);
+  box-shadow: var(--dark-shadow-lg);
+}
+
+/* Add Task Button styling */
+.MuiButton-containedPrimary[class*="bg-blue-600"] {
+  background: linear-gradient(to right, #2563eb, #4f46e5) !important;
+  border-radius: 9999px !important;
+  padding: 8px 20px !important;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiButton-containedPrimary[class*="bg-blue-600"]:hover {
+  background: linear-gradient(to right, #1d4ed8, #4338ca) !important;
+  box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+/* Add first task button styling */
+.MuiButton-outlinedPrimary {
+  margin-top: 16px !important;
+  border-radius: 9999px !important;
+  padding: 6px 16px !important;
+  border-color: #3b82f6 !important;
+  color: #2563eb !important;
+  transition: all 0.2s ease !important;
+}
+
+.MuiButton-outlinedPrimary:hover {
+  background-color: rgba(59, 130, 246, 0.08) !important;
+} 

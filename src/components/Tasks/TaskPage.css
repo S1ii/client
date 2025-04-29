@@ -1,0 +1,86 @@
+/* Add Task Button Styling */
+.add-task-button {
+  background: linear-gradient(to right, #2563eb, #4f46e5) !important;
+  border-radius: 9999px !important;
+  padding: 8px 20px !important;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+.add-task-button:hover {
+  background: linear-gradient(to right, #1d4ed8, #4338ca) !important;
+  box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+.empty-state-button {
+  margin-top: 16px !important;
+  border-radius: 9999px !important;
+  padding: 6px 16px !important;
+  border-color: #3b82f6 !important;
+  color: #2563eb !important;
+  transition: all 0.2s ease !important;
+}
+
+.empty-state-button:hover {
+  background-color: rgba(59, 130, 246, 0.08) !important;
+}
+
+/* Modal Styling */
+.task-modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(4px) !important;
+  z-index: 9999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+.task-modal-container {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  animation: modalFadeIn 0.3s ease forwards !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.task-modal-header {
+  padding: 20px 24px !important;
+  background: linear-gradient(to right, #eff6ff, #eef2ff) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.dark .task-modal-header {
+  background: linear-gradient(to right, #1e293b, #1e1e3f) !important;
+  border-bottom: 1px solid #334155 !important;
+}
+
+.task-modal-content {
+  padding: 24px !important;
+}
+
+.task-modal-save-button {
+  background: linear-gradient(to right, #2563eb, #4f46e5) !important;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+
+.task-modal-save-button:hover {
+  background: linear-gradient(to right, #1d4ed8, #4338ca) !important;
+  box-shadow: 0 3px 6px rgba(37, 99, 235, 0.3) !important;
+}
+
+@keyframes modalFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+} 

@@ -2,10 +2,18 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 type ThemeType = 'light' | 'dark';
 
+interface Position {
+  x: number;
+  y: number;
+}
+
 interface ThemeContextProps {
   theme: ThemeType;
   toggleTheme: () => void;
   setThemeMode: (theme: ThemeType) => void;
+  transitionPosition: Position;
+  setTransitionPosition: (position: Position) => void;
+  isTransitioning: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
@@ -27,6 +35,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const savedTheme = localStorage.getItem('theme');
     return (savedTheme as ThemeType) || 'light';
   });
+  
+  const [transitionPosition, setTransitionPosition] = useState<Position>({ x: 0, y: 0 });
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     // Сохраняем тему в localStorage
@@ -38,7 +49,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    }, 50); // Slight delay to allow animation to start
+
+    // Reset transition state after animation completes
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 1000);
   };
 
   const setThemeMode = (newTheme: ThemeType) => {
@@ -46,7 +65,16 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setThemeMode }}>
+    <ThemeContext.Provider 
+      value={{ 
+        theme, 
+        toggleTheme, 
+        setThemeMode, 
+        transitionPosition, 
+        setTransitionPosition,
+        isTransitioning
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

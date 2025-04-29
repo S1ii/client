@@ -6,13 +6,25 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 
 const ThemeToggle: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, setTransitionPosition } = useTheme();
   const { t } = useLanguage();
+
+  const handleToggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Get the click position
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    // Set the position in the theme context
+    setTransitionPosition({ x, y });
+    
+    // Toggle the theme
+    toggleTheme();
+  };
 
   return (
     <Tooltip title={t('toggle_theme')}>
       <IconButton
-        onClick={toggleTheme}
+        onClick={handleToggleTheme}
         color="inherit"
         className={`
           p-2 rounded-full transition-all duration-200

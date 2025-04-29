@@ -231,7 +231,7 @@ const ClientsPage: React.FC = () => {
         <div className="flex items-center">
           <span className="material-icons text-[var(--primary-color)] mr-3 text-3xl">people</span>
           <h1 className="text-2xl font-bold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-            {t2('clients')}
+            {t('nav_clients')}
           </h1>
         </div>
         

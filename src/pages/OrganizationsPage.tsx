@@ -190,7 +190,7 @@ const OrganizationsPage: React.FC = () => {
         <div className="flex items-center">
           <span className="material-icons text-[var(--primary-color)] mr-3 text-3xl">business</span>
           <h1 className="text-2xl font-bold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-            {t('organizations')}
+            {t('nav_organizations')}
           </h1>
         </div>
         

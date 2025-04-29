@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Typography, CircularProgress, Alert } from '@mui/material';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { useNotification } from '../context/NotificationContext';
 import { OrganizationModal, OrganizationDetail, Organization } from '../components/Organizations';
 import { organizationsService } from '../services/api/organizationsService';
 import { OrganizationFilters } from '../services/api/organizationsService';
@@ -12,6 +13,7 @@ const OrganizationsPage: React.FC = () => {
   const { t } = useLanguage();
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -104,8 +106,10 @@ const OrganizationsPage: React.FC = () => {
       try {
         await organizationsService.deleteOrganization(organization.id);
         setOrganizations(organizations.filter(org => org.id !== organization.id));
+        showNotification('Организация успешно удалена', 'success');
       } catch (err: any) {
         setError(err.message || t('organizations.deleteError'));
+        showNotification('Ошибка при удалении организации', 'error');
       }
     }
   };
@@ -117,13 +121,16 @@ const OrganizationsPage: React.FC = () => {
         setOrganizations(organizations.map(org => 
           org.id === updatedOrganization.id ? updatedOrganization : org
         ));
+        showNotification('Организация успешно обновлена', 'success');
       } else {
         const newOrganization = await organizationsService.createOrganization(organization);
         setOrganizations([...organizations, newOrganization]);
+        showNotification('Организация успешно добавлена', 'success');
       }
       setIsModalOpen(false);
     } catch (err: any) {
       setError(err.message || t('organizations.deleteError'));
+      showNotification('Ошибка при сохранении организации', 'error');
     }
   };
 

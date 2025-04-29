@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useNotification } from '../context/NotificationContext';
 import axios from 'axios';
 import { ClientModal, Client } from '../components/Clients';
 import { ClientResponse, ClientStatus } from '../components/Clients/types';
@@ -19,6 +20,7 @@ const ClientsPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentClient, setCurrentClient] = useState<Client | null>(null);
   const [modalTitle, setModalTitle] = useState('');
+  const { showNotification } = useNotification();
 
   // DEBUG: Проверка переводов
   useEffect(() => {
@@ -90,23 +92,6 @@ const ClientsPage: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  // Функция для удаления клиента
-  const handleDeleteClient = async (clientId: string) => {
-    if (window.confirm(t('clients.confirmDelete'))) {
-      try {
-        const response = await axios.delete<{success: boolean; message?: string}>(`/api/clients/${clientId}`);
-        
-        if (response.data.success) {
-          // Удаляем клиента из локального состояния
-          setClients(prev => prev.filter(client => client.id !== clientId));
-        }
-      } catch (err: any) {
-        console.error('Error deleting client:', err);
-        alert(t('clients.deleteError'));
-      }
-    }
-  };
-
   // Handle save client
   const handleSaveClient = async (client: Client) => {
     try {
@@ -134,6 +119,7 @@ const ClientsPage: React.FC = () => {
           
           // Обновляем список клиентов
           setClients(prev => prev.map(c => c.id === clientToSave.id ? updatedClient : c));
+          showNotification('Клиент успешно обновлен', 'success');
         }
       } else {
         // Create new client
@@ -149,6 +135,7 @@ const ClientsPage: React.FC = () => {
           
           // Добавляем нового клиента в список
           setClients(prev => [...prev, newClient]);
+          showNotification('Клиент успешно добавлен', 'success');
         }
       }
       
@@ -157,6 +144,25 @@ const ClientsPage: React.FC = () => {
     } catch (err: any) {
       // Handle error
       console.error('Error saving client:', err);
+      showNotification('Ошибка при сохранении клиента', 'error');
+    }
+  };
+
+  // Функция для удаления клиента
+  const handleDeleteClient = async (clientId: string) => {
+    if (window.confirm(t('clients.confirmDelete'))) {
+      try {
+        const response = await axios.delete<{success: boolean; message?: string}>(`/api/clients/${clientId}`);
+        
+        if (response.data.success) {
+          // Удаляем клиента из локального состояния
+          setClients(prev => prev.filter(client => client.id !== clientId));
+          showNotification('Клиент успешно удален', 'success');
+        }
+      } catch (err: any) {
+        console.error('Error deleting client:', err);
+        showNotification('Ошибка при удалении клиента', 'error');
+      }
     }
   };
 

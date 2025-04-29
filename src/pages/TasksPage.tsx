@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useNotification } from '../context/NotificationContext';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import TaskCard from '../components/Tasks/TaskCard';
@@ -26,6 +27,7 @@ type TaskStatus = 'todo' | 'in_progress' | 'done';
 
 const TasksPage: React.FC = () => {
   const { t } = useLanguage();
+  const { showNotification } = useNotification();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -295,62 +297,52 @@ const TasksPage: React.FC = () => {
 
   // Обработка сохранения задачи
   const handleSaveTask = async (taskData: any) => {
-    setLoading(true);
-    
     try {
+      let response: Task | null = null;
+      
       if (modalMode === 'create') {
         // Создание новой задачи
-        const newTask = await tasksApi.createTask(taskData);
-        const updatedTasks = Array.isArray(tasks) ? [...tasks, newTask] : [newTask];
-        setTasks(updatedTasks);
+        response = await tasksApi.createTask(taskData);
         
-        // Убедимся, что фильтрованные задачи тоже обновляются
-        if (
-          (filterStatus === 'all' || filterStatus === newTask.status) &&
-          (filterPriority === 'all' || filterPriority === newTask.priority) &&
-          (!searchTerm || 
-           newTask.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           newTask.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           newTask.assignedTo?.toLowerCase().includes(searchTerm.toLowerCase()))
-        ) {
-          // Если задача соответствует текущим фильтрам, обновим фильтрованный список
-          console.log("Новая задача добавлена и отображена:", newTask);
+        if (response) {
+          setTasks([...tasks, response]);
+          showNotification('Задача успешно создана', 'success');
         }
-      } else if (modalMode === 'edit' && currentTask) {
+      } else {
         // Обновление существующей задачи
-        const updatedTask = await tasksApi.updateTask(currentTask.id, taskData);
-        const updatedTasks = Array.isArray(tasks) 
-          ? tasks.map(task => task.id === updatedTask.id ? updatedTask : task) 
-          : [updatedTask];
-        setTasks(updatedTasks);
+        if (currentTask) {
+          response = await tasksApi.updateTask(currentTask.id, {
+            ...currentTask,
+            ...taskData
+          });
+          
+          if (response) {
+            setTasks(tasks.map(task => 
+              task.id === response!.id ? response! : task
+            ));
+            showNotification('Задача успешно обновлена', 'success');
+          }
+        }
       }
       
-      setShowModal(false);
-      setCurrentTask(null);
-      setError(null);
+      handleCloseModal();
     } catch (err) {
       console.error('Error saving task:', err);
-      setError(modalMode === 'create' ? t('failedToCreateTask') : t('failedToUpdateTask'));
-    } finally {
-      setLoading(false);
+      showNotification('Ошибка при сохранении задачи', 'error');
     }
   };
 
   // Обработчик удаления задачи
   const handleDeleteTask = async (id: string) => {
-    if (!window.confirm(t('confirmDeleteTask'))) return;
-    
-    setLoading(true);
-    
-    try {
-      await tasksApi.deleteTask(id);
-      setTasks(Array.isArray(tasks) ? tasks.filter(task => task.id !== id) : []);
-      setError(null);
-    } catch (err) {
-      console.error('Error deleting task:', err);
-      setError(t('failedToDeleteTask'));
-    } finally {
-      setLoading(false);
+    if (window.confirm(t('tasks.confirmDelete'))) {
+      try {
+        await tasksApi.deleteTask(id);
+        setTasks(tasks.filter(task => task.id !== id));
+        showNotification('Задача успешно удалена', 'success');
+      } catch (err) {
+        console.error('Error deleting task:', err);
+        showNotification('Ошибка при удалении задачи', 'error');
+      }
     }
   };
 

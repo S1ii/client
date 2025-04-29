@@ -35,81 +35,71 @@ import {
 import axios from 'axios';
 
 const DashboardLayoutPage: React.FC = () => {
-  const { t } = useLanguage();
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [clientModalOpen, setClientModalOpen] = useState<boolean>(false);
-  const [organizationModalOpen, setOrganizationModalOpen] = useState<boolean>(false);
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const { showNotification } = useNotification();
   
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setLoading(true);
-        const tasksData = await tasksApi.getTasks();
-        setTasks(tasksData);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching tasks:', err);
-        setError('Не удалось загрузить задачи');
-        
-        // Demo data if API unavailable
-        setTasks([
-          {
-            id: '1',
-            title: 'Создать презентацию',
-            description: 'Подготовить презентацию для клиента по проекту',
-            priority: 'high',
-            status: 'todo',
-            dueDate: '2023-12-15',
-            assignedTo: 'Алексей Смирнов',
-            createdAt: '2023-12-01T10:00:00Z',
-            updatedAt: '2023-12-01T10:00:00Z'
-          },
-          {
-            id: '2',
-            title: 'Изучить документацию',
-            description: 'Изучить новую версию API',
-            priority: 'medium',
-            status: 'in_progress',
-            dueDate: '2023-12-10',
-            assignedTo: 'Мария Иванова',
-            createdAt: '2023-12-02T11:30:00Z',
-            updatedAt: '2023-12-02T11:30:00Z'
-          },
-          {
-            id: '3',
-            title: 'Исправить баги',
-            description: 'Исправить ошибки в модуле оплаты',
-            priority: 'high',
-            status: 'done',
-            dueDate: '2023-12-05',
-            assignedTo: 'Дмитрий Петров',
-            createdAt: '2023-12-01T09:15:00Z',
-            updatedAt: '2023-12-03T14:20:00Z'
-          },
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [clientModalOpen, setClientModalOpen] = useState(false);
+  const [organizationModalOpen, setOrganizationModalOpen] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
+  useEffect(() => {
     fetchTasks();
   }, []);
 
-  // Форматирование даты
+  const fetchTasks = async () => {
+    try {
+      setLoading(true);
+      const response = await tasksApi.getTasks();
+      const sortedTasks = response.sort((a: Task, b: Task) => {
+        return new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime();
+      });
+      setTasks(sortedTasks.slice(0, 5));
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching tasks:', err);
+      setError(t('failedToFetchTasks'));
+      setLoading(false);
+    }
+  };
+
+  // Форматирование даты для отображения
   const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return '';
+    if (!dateString) return '-';
     
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('ru-RU', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }).format(date);
+    try {
+      const date = new Date(dateString);
+      const today = new Date();
+      
+      // Один день в миллисекундах
+      const oneDay = 24 * 60 * 60 * 1000;
+      
+      // Если дата сегодня
+      if (date.toDateString() === today.toDateString()) {
+        return t('today');
+      }
+      
+      // Если дата на этой неделе
+      const daysDiff = Math.round(Math.abs((today.getTime() - date.getTime()) / oneDay));
+      if (daysDiff < 7) {
+        const options: Intl.DateTimeFormatOptions = { weekday: 'long' };
+        return date.toLocaleDateString('ru-RU', options);
+      }
+      
+      // Если дата в этом месяце
+      if (date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+        return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+      }
+      
+      // Во всех других случаях
+      return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString;
+    }
   };
 
   const getStatusIcon = (status: string) => {
@@ -168,40 +158,34 @@ const DashboardLayoutPage: React.FC = () => {
   // Обработчик сохранения клиента
   const handleSaveClient = async (client: Client) => {
     try {
-      console.log('Сохранение клиента:', client);
+      // Здесь будет вызов API для сохранения клиента
+      const response = await axios.post('/api/clients', client);
       
-      // Убедимся, что client.status всегда имеет валидное значение
-      const clientToSave = {
-        ...client,
-        status: client.status === 'active' || client.status === 'inactive' ? client.status : 'active'
-      };
-      
-      const response = await axios.post('/api/clients', clientToSave);
-      
-      if (response.data.success) {
-        console.log('Клиент создан:', response.data.data);
+      if (response.status === 201) {
         handleCloseClientModal();
-        showNotification('Клиент успешно добавлен', 'success');
+        // Показываем уведомление об успешном создании клиента
+        showNotification(t('clients.addClient') + ' ' + t('common.save'), 'success');
       }
     } catch (err: any) {
       console.error('Error saving client:', err);
-      showNotification('Ошибка при добавлении клиента', 'error');
+      showNotification(t('clients.connectionError'), 'error');
     }
   };
 
   // Обработчик сохранения организации
   const handleSaveOrganization = async (organization: Organization) => {
     try {
+      // Здесь будет вызов API для сохранения организации
       const response = await axios.post('/api/organizations', organization);
       
-      if (response.data.success) {
-        console.log('Организация создана:', response.data.data);
+      if (response.status === 201) {
         handleCloseOrganizationModal();
-        showNotification('Организация успешно добавлена', 'success');
+        // Показываем уведомление об успешном создании организации
+        showNotification(t('organizations.createOrganization') + ' ' + t('common.save'), 'success');
       }
     } catch (err: any) {
       console.error('Error saving organization:', err);
-      showNotification('Ошибка при добавлении организации', 'error');
+      showNotification(t('organizations.connectionError'), 'error');
     }
   };
 
@@ -212,7 +196,7 @@ const DashboardLayoutPage: React.FC = () => {
         <div className="flex items-center">
           <span className="material-icons text-[var(--primary-color)] mr-3 text-3xl">dashboard</span>
           <h1 className="text-2xl font-bold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-            Панель управления
+            {t('dashboard')}
           </h1>
         </div>
       </div>
@@ -225,7 +209,7 @@ const DashboardLayoutPage: React.FC = () => {
               <span className="material-icons text-blue-600 dark:text-blue-400">assignment</span>
             </div>
             <div>
-              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">Всего задач</p>
+              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">{t('totalTasks')}</p>
               <p className="text-2xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{tasks.length}</p>
             </div>
           </div>
@@ -237,7 +221,7 @@ const DashboardLayoutPage: React.FC = () => {
               <span className="material-icons text-green-600 dark:text-green-400">check_circle</span>
             </div>
             <div>
-              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">Выполнено</p>
+              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">{t('done')}</p>
               <p className="text-2xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
                 {tasks.filter(task => task.status === 'done').length}
               </p>
@@ -251,7 +235,7 @@ const DashboardLayoutPage: React.FC = () => {
               <span className="material-icons text-yellow-600 dark:text-yellow-400">pending_actions</span>
             </div>
             <div>
-              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">В процессе</p>
+              <p className="text-sm text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">{t('inProgress')}</p>
               <p className="text-2xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
                 {tasks.filter(task => task.status === 'in_progress' || task.status === 'todo').length}
               </p>
@@ -272,12 +256,12 @@ const DashboardLayoutPage: React.FC = () => {
                 <span className="material-icons text-indigo-600 dark:text-indigo-400">person_add</span>
               </div>
               <h3 className="text-xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-                Добавить клиента
+                {t('clients.addClient')}
               </h3>
             </div>
           </div>
           <p className="text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] mb-4">
-            Создайте новую запись клиента в системе
+            {t('clients.noClientsDescription')}
           </p>
           <div className="flex justify-between items-center mt-2">
             <button
@@ -288,7 +272,7 @@ const DashboardLayoutPage: React.FC = () => {
               className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-sm transition-colors"
             >
               <span className="material-icons mr-2 text-sm">add</span>
-              Добавить
+              {t('common.add')}
             </button>
             <button
               onClick={(e) => {
@@ -297,7 +281,7 @@ const DashboardLayoutPage: React.FC = () => {
               }}
               className="text-indigo-600 dark:text-indigo-400 hover:underline"
             >
-              Все клиенты
+              {t('seeAll')}
             </button>
           </div>
         </div>
@@ -312,12 +296,12 @@ const DashboardLayoutPage: React.FC = () => {
                 <span className="material-icons text-blue-600 dark:text-blue-400">business</span>
               </div>
               <h3 className="text-xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-                Добавить организацию
+                {t('organizations.addOrganization')}
               </h3>
             </div>
           </div>
           <p className="text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] mb-4">
-            Создайте новую запись организации в системе
+            {t('organizations.noOrganizationsDescription')}
           </p>
           <div className="flex justify-between items-center mt-2">
             <button
@@ -328,7 +312,7 @@ const DashboardLayoutPage: React.FC = () => {
               className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm transition-colors"
             >
               <span className="material-icons mr-2 text-sm">add</span>
-              Добавить
+              {t('common.add')}
             </button>
             <button
               onClick={(e) => {
@@ -337,7 +321,7 @@ const DashboardLayoutPage: React.FC = () => {
               }}
               className="text-blue-600 dark:text-blue-400 hover:underline"
             >
-              Все организации
+              {t('seeAll')}
             </button>
           </div>
         </div>
@@ -351,20 +335,20 @@ const DashboardLayoutPage: React.FC = () => {
               <span className="material-icons text-teal-600 dark:text-teal-400">assignment</span>
             </div>
             <h3 className="text-xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-              Недавние задачи
+              {t('recentActivity')}
             </h3>
           </div>
           <button
             onClick={handleViewAllTasks}
             className="text-[var(--primary-color)] hover:underline text-sm font-medium"
           >
-            Все задачи
+            {t('seeAll')}
           </button>
         </div>
         
         {loading ? (
           <div className="flex justify-center py-8">
-            <p className="text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">Загрузка...</p>
+            <p className="text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">{t('common.loading')}</p>
           </div>
         ) : error ? (
           <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-lg mb-4">
@@ -375,11 +359,11 @@ const DashboardLayoutPage: React.FC = () => {
             <table className="min-w-full">
               <thead>
                 <tr className="border-b border-[var(--light-border-color)] dark:border-[var(--dark-border-color)]">
-                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">Название</th>
-                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">Приоритет</th>
-                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">Статус</th>
-                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">Срок</th>
-                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">Исполнитель</th>
+                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">{t('tasks.title')}</th>
+                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">{t('tasks.priority')}</th>
+                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">{t('tasks.status')}</th>
+                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">{t('tasks.dueDate')}</th>
+                  <th className="text-left py-3 px-4 text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)] font-medium text-sm">{t('tasks.assignedTo')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -395,31 +379,28 @@ const DashboardLayoutPage: React.FC = () => {
                             ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
                             : 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
                         }`}>
-                          {task.priority === 'high' ? 'Высокий' : task.priority === 'medium' ? 'Средний' : 'Низкий'}
+                          {task.priority === 'high' ? t('high') : task.priority === 'medium' ? t('medium') : t('low')}
                         </span>
                       </td>
                       <td className="py-3 px-4">
-                        <div className="flex items-center">
-                          {task.status === 'done' ? (
-                            <span className="material-icons text-green-600 dark:text-green-400 mr-1.5 text-sm">check_circle</span>
-                          ) : task.status === 'in_progress' ? (
-                            <span className="material-icons text-yellow-600 dark:text-yellow-400 mr-1.5 text-sm">pending_actions</span>
-                          ) : (
-                            <span className="material-icons text-blue-600 dark:text-blue-400 mr-1.5 text-sm">schedule</span>
-                          )}
-                          <span className="text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-                            {task.status === 'done' ? 'Выполнено' : task.status === 'in_progress' ? 'В процессе' : 'К выполнению'}
-                          </span>
-                        </div>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          task.status === 'done' 
+                            ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' 
+                            : task.status === 'in_progress'
+                            ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
+                            : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                        }`}>
+                          {task.status === 'done' ? t('done') : task.status === 'in_progress' ? t('inProgress') : t('todo')}
+                        </span>
                       </td>
                       <td className="py-3 px-4 text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{formatDate(task.dueDate)}</td>
-                      <td className="py-3 px-4 text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{task.assignedTo || '—'}</td>
+                      <td className="py-3 px-4 text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">{task.assignedTo || t('tasks.notAssigned')}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">
-                      Нет доступных задач
+                    <td colSpan={5} className="py-6 text-center text-[var(--light-text-muted)] dark:text-[var(--dark-text-muted)]">
+                      {t('tasks.noTasks')}
                     </td>
                   </tr>
                 )}
@@ -429,19 +410,19 @@ const DashboardLayoutPage: React.FC = () => {
         )}
       </div>
       
-      {/* Модальные окна */}
-      <ClientModal 
-        open={clientModalOpen} 
+      {/* Modals */}
+      <ClientModal
+        open={clientModalOpen}
         onClose={handleCloseClientModal}
         onSave={handleSaveClient}
-        title="Добавление нового клиента"
+        title={t('clients.addClient')}
       />
       
       <OrganizationModal
         open={organizationModalOpen}
         onClose={handleCloseOrganizationModal}
         onSave={handleSaveOrganization}
-        title="Добавление новой организации"
+        title={t('organizations.addOrganization')}
       />
     </div>
   );

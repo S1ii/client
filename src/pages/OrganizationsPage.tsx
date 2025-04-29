@@ -447,7 +447,7 @@ const OrganizationsPage: React.FC = () => {
 
         {!loading && !error && organizations.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 px-4">
-            <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-6 mb-4">
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-6 mb-4 icon-circle">
               <span className="material-icons text-4xl text-gray-400 dark:text-gray-500">business</span>
             </div>
             <h3 className="text-lg font-medium text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)] mb-2">{t('organizations.noOrganizations')}</h3>

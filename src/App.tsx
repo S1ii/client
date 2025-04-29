@@ -13,7 +13,6 @@ import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { NotificationProvider } from './context/NotificationContext';
-import ThemeTransition from './components/ThemeTransition';
 import axios from 'axios';
 
 // API базовый URL
@@ -158,155 +157,153 @@ const App: React.FC = () => {
       <LanguageProvider>
         <SettingsProvider>
           <NotificationProvider>
-            <ThemeTransition>
-              <Router>
-                <MainLayout
-                  isAuthenticated={isAuthenticated}
-                  user={user}
-                  logout={logout}
-                >
-                  <Routes>
-                    {/* Публичные маршруты */}
-                    <Route
-                      path="/login"
-                      element={
-                        isAuthenticated ? (
-                          <Navigate to="/dashboard" replace />
-                        ) : (
-                          <LoginPage login={login} />
-                        )
-                      }
-                    />
+            <Router>
+              <MainLayout
+                isAuthenticated={isAuthenticated}
+                user={user}
+                logout={logout}
+              >
+                <Routes>
+                  {/* Публичные маршруты */}
+                  <Route
+                    path="/login"
+                    element={
+                      isAuthenticated ? (
+                        <Navigate to="/dashboard" replace />
+                      ) : (
+                        <LoginPage login={login} />
+                      )
+                    }
+                  />
 
-                    {/* Защищенные маршруты */}
-                    <Route
-                      path="/dashboard"
-                      element={
-                        isAuthenticated ? (
-                          <DashboardLayoutPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
-                    
-                    <Route
-                      path="/clients"
-                      element={
-                        isAuthenticated ? (
-                          <ClientsPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
-                    
-                    {/* New Client Form Route */}
-                    <Route
-                      path="/clients/new"
-                      element={
-                        isAuthenticated ? (
-                          <ClientsPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
+                  {/* Защищенные маршруты */}
+                  <Route
+                    path="/dashboard"
+                    element={
+                      isAuthenticated ? (
+                        <DashboardLayoutPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  
+                  <Route
+                    path="/clients"
+                    element={
+                      isAuthenticated ? (
+                        <ClientsPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  
+                  {/* New Client Form Route */}
+                  <Route
+                    path="/clients/new"
+                    element={
+                      isAuthenticated ? (
+                        <ClientsPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
 
-                    {/* Client Detail Route */}
-                    <Route
-                      path="/clients/:id"
-                      element={
-                        isAuthenticated ? (
-                          <ClientsPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
+                  {/* Client Detail Route */}
+                  <Route
+                    path="/clients/:id"
+                    element={
+                      isAuthenticated ? (
+                        <ClientsPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
 
-                    {/* Client Edit Route */}
-                    <Route
-                      path="/clients/:id/edit"
-                      element={
-                        isAuthenticated ? (
-                          <ClientsPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
-                    
-                    <Route
-                      path="/tasks"
-                      element={
-                        isAuthenticated ? (
-                          <TasksPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
-                    
-                    
-                    <Route
-                      path="/organizations"
-                      element={
-                        isAuthenticated ? (
-                          <OrganizationsPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
-                    
-                    <Route
-                      path="/analytics"
-                      element={
-                        isAuthenticated ? (
-                          <AnalyticsPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
-                    
-                    {/* Маршрут для администратора */}
-                    <Route
-                      path="/admin"
-                      element={
-                        isAuthenticated && isAdmin ? (
-                          <AdminPanel />
-                        ) : (
-                          <Navigate to="/dashboard" replace />
-                        )
-                      }
-                    />
-                    
-                    {/* Страница настроек */}
-                    <Route
-                      path="/settings"
-                      element={
-                        isAuthenticated ? (
-                          <SettingsPage />
-                        ) : (
-                          <Navigate to="/login" replace />
-                        )
-                      }
-                    />
-                    
-                    {/* Редирект на дашборд при переходе на главную */}
-                    <Route
-                      path="/"
-                      element={<Navigate to="/dashboard" replace />}
-                    />
-                    
-                    {/* Перенаправление для не найденных маршрутов */}
-                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
-                  </Routes>
-                </MainLayout>
-              </Router>
-            </ThemeTransition>
+                  {/* Client Edit Route */}
+                  <Route
+                    path="/clients/:id/edit"
+                    element={
+                      isAuthenticated ? (
+                        <ClientsPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  
+                  <Route
+                    path="/tasks"
+                    element={
+                      isAuthenticated ? (
+                        <TasksPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  
+                  
+                  <Route
+                    path="/organizations"
+                    element={
+                      isAuthenticated ? (
+                        <OrganizationsPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  
+                  <Route
+                    path="/analytics"
+                    element={
+                      isAuthenticated ? (
+                        <AnalyticsPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  
+                  {/* Маршрут для администратора */}
+                  <Route
+                    path="/admin"
+                    element={
+                      isAuthenticated && isAdmin ? (
+                        <AdminPanel />
+                      ) : (
+                        <Navigate to="/dashboard" replace />
+                      )
+                    }
+                  />
+                  
+                  {/* Страница настроек */}
+                  <Route
+                    path="/settings"
+                    element={
+                      isAuthenticated ? (
+                        <SettingsPage />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  
+                  {/* Редирект на дашборд при переходе на главную */}
+                  <Route
+                    path="/"
+                    element={<Navigate to="/dashboard" replace />}
+                  />
+                  
+                  {/* Перенаправление для не найденных маршрутов */}
+                  <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                </Routes>
+              </MainLayout>
+            </Router>
           </NotificationProvider>
         </SettingsProvider>
       </LanguageProvider>

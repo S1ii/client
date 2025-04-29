@@ -44,44 +44,6 @@
   --warning-light: #FBBF24;
 }
 
-/* Стили для анимации перехода тем */
-.theme-transition-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.theme-transition-circle {
-  position: fixed;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999;
-  animation: circle-expand 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-.theme-transition-circle.light {
-  background-color: var(--light-bg-primary);
-}
-
-.theme-transition-circle.dark {
-  background-color: var(--dark-bg-primary);
-}
-
-@keyframes circle-expand {
-  0% {
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  100% {
-    width: 300vw;
-    height: 300vw;
-    opacity: 1;
-  }
-}
-
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

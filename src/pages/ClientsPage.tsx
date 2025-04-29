@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useNotification } from '../context/NotificationContext';
 import axios from 'axios';
 import { ClientModal, Client } from '../components/Clients';
-import { ClientResponse, ClientStatus } from '../components/Clients/types';
+import { ClientResponse } from '../components/Clients/types';
 
 const ClientsPage: React.FC = () => {
   const { t, t2, language, translations } = useLanguage();
@@ -21,6 +21,20 @@ const ClientsPage: React.FC = () => {
   const [currentClient, setCurrentClient] = useState<Client | null>(null);
   const [modalTitle, setModalTitle] = useState('');
   const { showNotification } = useNotification();
+
+  // Handle add client - defined with useCallback before useEffect
+  const handleAddClient = useCallback(() => {
+    setCurrentClient(null);
+    setModalTitle(t('clients.addClient'));
+    setIsModalOpen(true);
+  }, [t]);
+
+  // Handle edit client - defined with useCallback before useEffect
+  const handleEditClient = useCallback((client: Client) => {
+    setCurrentClient(client);
+    setModalTitle(t('clients.editClient'));
+    setIsModalOpen(true);
+  }, [t]);
 
   // DEBUG: Проверка переводов
   useEffect(() => {
@@ -76,21 +90,7 @@ const ClientsPage: React.FC = () => {
       
       fetchClient();
     }
-  }, [id]);
-
-  // Handle add client
-  const handleAddClient = () => {
-    setCurrentClient(null);
-    setModalTitle(t('clients.addClient'));
-    setIsModalOpen(true);
-  };
-
-  // Handle edit client
-  const handleEditClient = (client: Client) => {
-    setCurrentClient(client);
-    setModalTitle(t('clients.editClient'));
-    setIsModalOpen(true);
-  };
+  }, [id, handleAddClient, handleEditClient]);
 
   // Handle save client
   const handleSaveClient = async (client: Client) => {
@@ -196,15 +196,6 @@ const ClientsPage: React.FC = () => {
       setSortBy(field);
       setSortOrder('asc');
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('ru-RU', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    }).format(date);
   };
 
   const getStatusIconAndClass = (status: string) => {

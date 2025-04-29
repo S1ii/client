@@ -17,7 +17,7 @@ const UsersTable: React.FC<UserTableProps> = ({
   page: externalPage = 1,
   onPageChange
 }) => {
-  const { t } = useLanguage();
+  useLanguage(); // Not using the returned value
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(loadingProp);
   const [error, setError] = useState<string | null>(null);

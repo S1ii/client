@@ -13,31 +13,18 @@ import {
   useTheme as useMuiTheme,
   Avatar,
   Button,
-  Tooltip,
-  IconButton,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
+  Tooltip
 } from '@mui/material';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import MiscellaneousServicesRoundedIcon from '@mui/icons-material/MiscellaneousServicesRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
-import EmailIcon from '@mui/icons-material/Email';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { Fade } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
 
 // Интерфейс для элементов меню
 interface MenuItem {
@@ -80,10 +67,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isAdmin = false, logou
     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60';
   const footerTextClass = theme === 'dark' ? 'text-slate-500' : 'text-slate-500';
 
-  // Add state for support dialog
-  const [supportDialogOpen, setSupportDialogOpen] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedTelegram, setCopiedTelegram] = useState(false);
 
   // Handle menu items based on user role
   useEffect(() => {
@@ -123,30 +106,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, isAdmin = false, logou
     if (logout) {
       logout();
     }
-  };
-
-  // Add functions to handle support dialog
-  const handleSupportClick = () => {
-    setSupportDialogOpen(true);
-  };
-
-  const handleCloseSupportDialog = () => {
-    setSupportDialogOpen(false);
-    // Reset copied states when dialog closes
-    setCopiedEmail(false);
-    setCopiedTelegram(false);
-  };
-
-  const copyToClipboard = (text: string, type: 'email' | 'telegram') => {
-    navigator.clipboard.writeText(text).then(() => {
-      if (type === 'email') {
-        setCopiedEmail(true);
-        setTimeout(() => setCopiedEmail(false), 2000);
-      } else {
-        setCopiedTelegram(true);
-        setTimeout(() => setCopiedTelegram(false), 2000);
-      }
-    });
   };
 
   const sidebarContent = (

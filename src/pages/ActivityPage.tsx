@@ -1,12 +1,10 @@
 import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
+import { Typography, Container } from '@mui/material';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
 import ActivityList from '../components/analytics/ActivityList';
 
 const ActivityPage: React.FC = () => {
   const { theme } = useTheme();
-  const { t } = useLanguage();
   
   return (
     <Container maxWidth="lg" className="py-6">

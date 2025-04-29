@@ -19,7 +19,7 @@ const OrganizationDetail: React.FC<OrganizationDetailProps> = ({
   onEdit,
   onDelete,
 }) => {
-  const { theme } = useTheme();
+  useTheme();
   const { t } = useLanguage();
 
   if (!organization || !open) return null;

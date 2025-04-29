@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Box, Typography, CircularProgress, Alert } from '@mui/material';
 import { useLanguage } from '../context/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
 import { useNotification } from '../context/NotificationContext';
 import { OrganizationModal, OrganizationDetail, Organization } from '../components/Organizations';
 import { organizationsService } from '../services/api/organizationsService';
 import { OrganizationFilters } from '../services/api/organizationsService';
-import AddIcon from '@mui/icons-material/Add';
-
 const OrganizationsPage: React.FC = () => {
   const { t } = useLanguage();
-  const { theme } = useTheme();
-  const navigate = useNavigate();
   const { showNotification } = useNotification();
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,10 +69,6 @@ const OrganizationsPage: React.FC = () => {
       setSortBy(field);
       setSortOrder('asc');
     }
-  };
-
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setCurrentPage(value);
   };
 
   const handleCreateOrganization = () => {
@@ -372,16 +361,12 @@ const OrganizationsPage: React.FC = () => {
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
-                                <a 
-                                  href="#" 
-                                  className="hover:text-[var(--primary-color)] hover:underline"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    handleViewOrganization(organization);
-                                  }}
+                                <button 
+                                  className="hover:text-[var(--primary-color)] hover:underline text-left bg-transparent border-none cursor-pointer p-0 m-0 font-medium text-sm text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]"
+                                  onClick={() => handleViewOrganization(organization)}
                                 >
                                   {organization.name}
-                                </a>
+                                </button>
                               </div>
                             </div>
                           </div>

@@ -1,42 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { Task, tasksApi } from '../services/apiService';
 import { ClientModal, Client } from '../components/Clients';
 import { OrganizationModal, Organization } from '../components/Organizations';
-import { useTheme } from '../context/ThemeContext';
 import { useNotification } from '../context/NotificationContext';
-import { 
-  Typography, 
-  Box, 
-  Card, 
-  CardContent, 
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Chip,
-  Grid,
-  Stack,
-} from '@mui/material';
-import {
-  Add as AddIcon,
-  Person as PersonIcon, 
-  Business as BusinessIcon,
-  CheckCircle as CheckCircleIcon,
-  PendingActions as PendingIcon,
-  AssignmentLate as InProgressIcon,
-  Dashboard as DashboardIcon,
-} from '@mui/icons-material';
 import axios from 'axios';
 
 const DashboardLayoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { theme } = useTheme();
   const { t } = useLanguage();
   const { showNotification } = useNotification();
   
@@ -46,11 +18,7 @@ const DashboardLayoutPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       setLoading(true);
       const response = await tasksApi.getTasks();
@@ -64,7 +32,11 @@ const DashboardLayoutPage: React.FC = () => {
       setError(t('failedToFetchTasks'));
       setLoading(false);
     }
-  };
+  }, [t]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   // Форматирование даты для отображения
   const formatDate = (dateString: string | undefined) => {
@@ -99,31 +71,6 @@ const DashboardLayoutPage: React.FC = () => {
     } catch (error) {
       console.error('Error formatting date:', error);
       return dateString;
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'done':
-        return <CheckCircleIcon className="text-green-500" />;
-      case 'in_progress':
-        return <InProgressIcon className="text-yellow-500" />;
-      case 'todo':
-      default:
-        return <PendingIcon className="text-blue-500" />;
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high':
-        return 'error';
-      case 'medium':
-        return 'warning';
-      case 'low':
-        return 'success';
-      default:
-        return 'default';
     }
   };
 

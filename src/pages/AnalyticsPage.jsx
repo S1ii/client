@@ -1,12 +1,8 @@
-import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
 import UpdateIcon from '@mui/icons-material/Update';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
 
 const AnalyticsPage = () => {
   const { theme } = useTheme();
-  const { t } = useLanguage();
   
   return (
     <div className="w-full max-w-6xl mx-auto py-6">

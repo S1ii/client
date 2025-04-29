@@ -1,29 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useNotification } from '../context/NotificationContext';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
-import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import TaskCard from '../components/Tasks/TaskCard';
 import TaskModal from '../components/Tasks/TaskModal';
-import TaskEnhancer from '../components/Tasks/TaskEnhancer';
 import { Task, tasksApi } from '../services/apiService';
-import { 
-  TextField, FormControl, InputLabel, Select, MenuItem, 
-  Button, Card, CardContent, Typography, Divider, List, 
-  Avatar, Chip, Badge, InputAdornment, Paper,
-  Box
-} from '@mui/material';
-import { 
-  AssignmentTurnedIn as CompletedIcon,
-  AssignmentLate as InProgressIcon,
-  PendingActions as PendingIcon,
-  Assignment as TasksIcon,
-  Search as SearchIcon,
-  Add as AddIcon,
-  TaskAlt as TaskAltIcon
-} from '@mui/icons-material';
-
-type TaskStatus = 'todo' | 'in_progress' | 'done';
 
 const TasksPage: React.FC = () => {
   const { t } = useLanguage();
@@ -35,37 +14,14 @@ const TasksPage: React.FC = () => {
   const [filterPriority, setFilterPriority] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('newest');
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
   const [currentTask, setCurrentTask] = useState<Task | null>(null);
-  
-  // Сенсоры для DnD
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
   
   // Группировка задач по статусу
   const todoTasks = Array.isArray(tasks) ? tasks.filter(task => task.status === 'todo') : [];
   const inProgressTasks = Array.isArray(tasks) ? tasks.filter(task => task.status === 'in_progress') : [];
   const doneTasks = Array.isArray(tasks) ? tasks.filter(task => task.status === 'done') : [];
-
-  // Получение цвета для приоритета
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high':
-        return 'bg-red-500';
-      case 'medium':
-        return 'bg-yellow-500';
-      case 'low':
-        return 'bg-green-500';
-      default:
-        return 'bg-gray-500';
-    }
-  };
 
   // Форматирование даты
   const formatDate = (dateString: string | undefined) => {
@@ -203,78 +159,6 @@ const TasksPage: React.FC = () => {
     return filteredTasks;
   };
 
-  // Получение задач по статусу
-  const getTasksByStatus = (status: TaskStatus) => {
-    const filteredTasks = getFilteredTasks();
-    return Array.isArray(filteredTasks) 
-      ? filteredTasks.filter(task => task.status === status)
-      : [];
-  };
-
-  // Обработчик начала перетаскивания
-  const handleDragStart = (event: DragStartEvent) => {
-    if (!Array.isArray(tasks)) return;
-    
-    const { active } = event;
-    const activeTaskId = active.id.toString();
-    const task = tasks.find(task => task.id === activeTaskId);
-    
-    if (task) {
-      setActiveTask(task);
-    }
-  };
-
-  // Обработчик перетаскивания над целью
-  const handleDragOver = (event: DragOverEvent) => {
-    if (!Array.isArray(tasks)) return;
-    
-    const { active, over } = event;
-    
-    if (!over || !active) return;
-    
-    const activeId = active.id.toString();
-    const overId = over.id.toString();
-    
-    if (activeId === overId) return;
-    
-    const activeTask = tasks.find(task => task.id === activeId);
-    const overTask = tasks.find(task => task.id === overId);
-    
-    if (!activeTask || !overTask) return;
-    
-    // Если задача перетаскивается в другую колонку
-    if (activeTask.status !== overTask.status) {
-      setTasks(tasks.map(task => 
-        task.id === activeId 
-          ? { ...task, status: overTask.status } 
-          : task
-      ));
-    }
-  };
-
-  // Обработчик окончания перетаскивания
-  const handleDragEnd = (event: DragEndEvent) => {
-    if (!Array.isArray(tasks)) return;
-    
-    const { active, over } = event;
-    setActiveTask(null);
-    
-    if (!over) return;
-    
-    const activeId = active.id.toString();
-    const overId = over.id.toString();
-    
-    if (activeId === overId) return;
-    
-    // Найти индексы задач
-    const activeIndex = tasks.findIndex(task => task.id === activeId);
-    const overIndex = tasks.findIndex(task => task.id === overId);
-    
-    // Обновить список задач с новым порядком
-    const updatedTasks = arrayMove(tasks, activeIndex, overIndex);
-    setTasks(updatedTasks);
-  };
-
   // Открыть модальное окно для создания задачи
   const handleOpenCreateModal = () => {
     setModalMode('create');
@@ -343,16 +227,6 @@ const TasksPage: React.FC = () => {
         console.error('Error deleting task:', err);
         showNotification('Ошибка при удалении задачи', 'error');
       }
-    }
-  };
-
-  // Получение статуса текста
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'todo': return 'К выполнению';
-      case 'in_progress': return 'В процессе';
-      case 'done': return 'Выполнено';
-      default: return 'Неизвестный статус';
     }
   };
 

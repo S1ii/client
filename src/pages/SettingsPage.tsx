@@ -1,20 +1,14 @@
 import React from 'react';
 import { 
-  Box, 
   Typography, 
   Slider, 
-  Switch, 
-  FormControlLabel, 
+  Switch,
   Button, 
-  Divider, 
-  Paper, 
-  Stack,
-  Grid 
+  Divider
 } from '@mui/material';
 import { useSettings } from '../context/SettingsContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Settings as SettingsIcon, Palette, Language, FormatSize, Animation } from '@mui/icons-material';
 
 const SettingsPage: React.FC = () => {
   const { settings, updateSettings, resetSettings } = useSettings();

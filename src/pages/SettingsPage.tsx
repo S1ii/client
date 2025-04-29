@@ -36,7 +36,7 @@ const SettingsPage: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div className="bg-white dark:bg-[var(--dark-bg-secondary)] shadow-sm rounded-xl p-4 border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)]">
           <div className="flex items-center">
-            <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4">
+            <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4 icon-circle">
               <span className="material-icons text-blue-600 dark:text-blue-400">palette</span>
             </div>
             <div>
@@ -50,7 +50,7 @@ const SettingsPage: React.FC = () => {
         
         <div className="bg-white dark:bg-[var(--dark-bg-secondary)] shadow-sm rounded-xl p-4 border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)]">
           <div className="flex items-center">
-            <div className="bg-green-100 dark:bg-green-900/30 rounded-full p-3 mr-4">
+            <div className="bg-green-100 dark:bg-green-900/30 rounded-full p-3 mr-4 icon-circle">
               <span className="material-icons text-green-600 dark:text-green-400">language</span>
             </div>
             <div>

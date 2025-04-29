@@ -221,7 +221,7 @@ const DashboardLayoutPage: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div className="bg-white dark:bg-[var(--dark-bg-secondary)] shadow-sm rounded-xl p-4 border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)]">
           <div className="flex items-center">
-            <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4">
+            <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4 icon-circle">
               <span className="material-icons text-blue-600 dark:text-blue-400">assignment</span>
             </div>
             <div>
@@ -233,7 +233,7 @@ const DashboardLayoutPage: React.FC = () => {
         
         <div className="bg-white dark:bg-[var(--dark-bg-secondary)] shadow-sm rounded-xl p-4 border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)]">
           <div className="flex items-center">
-            <div className="bg-green-100 dark:bg-green-900/30 rounded-full p-3 mr-4">
+            <div className="bg-green-100 dark:bg-green-900/30 rounded-full p-3 mr-4 icon-circle">
               <span className="material-icons text-green-600 dark:text-green-400">check_circle</span>
             </div>
             <div>
@@ -247,7 +247,7 @@ const DashboardLayoutPage: React.FC = () => {
         
         <div className="bg-white dark:bg-[var(--dark-bg-secondary)] shadow-sm rounded-xl p-4 border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)]">
           <div className="flex items-center">
-            <div className="bg-yellow-100 dark:bg-yellow-900/30 rounded-full p-3 mr-4">
+            <div className="bg-yellow-100 dark:bg-yellow-900/30 rounded-full p-3 mr-4 icon-circle">
               <span className="material-icons text-yellow-600 dark:text-yellow-400">pending_actions</span>
             </div>
             <div>
@@ -268,7 +268,7 @@ const DashboardLayoutPage: React.FC = () => {
         >
           <div className="flex justify-between items-start mb-4">
             <div className="flex items-center">
-              <div className="bg-indigo-100 dark:bg-indigo-900/30 rounded-full p-3 mr-4">
+              <div className="bg-indigo-100 dark:bg-indigo-900/30 rounded-full p-3 mr-4 icon-circle">
                 <span className="material-icons text-indigo-600 dark:text-indigo-400">person_add</span>
               </div>
               <h3 className="text-xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
@@ -308,7 +308,7 @@ const DashboardLayoutPage: React.FC = () => {
         >
           <div className="flex justify-between items-start mb-4">
             <div className="flex items-center">
-              <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4">
+              <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4 icon-circle">
                 <span className="material-icons text-blue-600 dark:text-blue-400">business</span>
               </div>
               <h3 className="text-xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
@@ -347,7 +347,7 @@ const DashboardLayoutPage: React.FC = () => {
       <div className="bg-white dark:bg-[var(--dark-bg-secondary)] shadow-sm rounded-xl p-5 border border-[var(--light-border-color)] dark:border-[var(--dark-border-color)]">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
-            <div className="bg-teal-100 dark:bg-teal-900/30 rounded-full p-2 mr-3">
+            <div className="bg-teal-100 dark:bg-teal-900/30 rounded-full p-2 mr-3 icon-circle">
               <span className="material-icons text-teal-600 dark:text-teal-400">assignment</span>
             </div>
             <h3 className="text-xl font-semibold text-[var(--light-text-primary)] dark:text-[var(--dark-text-primary)]">
